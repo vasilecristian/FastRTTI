@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RTTIvsFASTRTTI", "RTTIvsFASTRTTI.vcproj", "{A22C4C89-2252-481D-AFE0-79B3DB462131}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RTTIvsFAST", "RTTIvsFAST.vcproj", "{A22C4C89-2252-481D-AFE0-79B3DB462131}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +13,8 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Debug|Win32.Build.0 = Debug|Win32
-		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FAST|Win32.ActiveCfg = Release_FAKE|Win32
-		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FAST|Win32.Build.0 = Release_FAKE|Win32
+		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FAST|Win32.ActiveCfg = Release_FAST|Win32
+		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FAST|Win32.Build.0 = Release_FAST|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_RTTI|Win32.ActiveCfg = Release_RTTI|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_RTTI|Win32.Build.0 = Release_RTTI|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release|Win32.ActiveCfg = Release|Win32
