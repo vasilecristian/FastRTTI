@@ -6,14 +6,14 @@
 #include <vector>
 
 
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
 #include "../../../src/RTTI.h"
 using namespace fastrtti;
 #endif
 
 
 class A
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     : public IRTTI<A>
 #endif
 {
@@ -47,7 +47,7 @@ public:
 
 
 class B
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     : public IRTTI<B>
 #endif
 {
@@ -81,7 +81,7 @@ public:
 
 
 class C
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     : public IRTTI<C>
 #endif
 {
@@ -115,7 +115,7 @@ public:
 
 
 class D
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     : public IRTTI<D>
 #endif
 {
@@ -149,7 +149,7 @@ public:
 
 
 class E
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     : public IRTTI<E>
 #endif
 {
@@ -182,7 +182,7 @@ public:
 };
 
 class AB: public virtual A, public virtual B
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     , public IRTTI<AB>
 #endif
 {
@@ -215,7 +215,7 @@ public:
 };
 
 class CD: public virtual C, public virtual D
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     , public IRTTI<CD>
 #endif
 {
@@ -248,7 +248,7 @@ public:
 };
 
 class AB_CD: public virtual AB, public virtual CD
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     , public IRTTI<AB_CD>
 #endif
 {
@@ -282,7 +282,7 @@ public:
 
 
 class AB_CD_E: public virtual AB, public virtual CD, public virtual E
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     , public IRTTI<AB_CD_E>
 #endif
 {
@@ -328,14 +328,14 @@ int main(int argc, char* argv[])
 
     unsigned t0=clock();
 
-#ifdef USE_FAKE_RTTI
+#ifdef USE_FAST_RTTI
     for(int i=0; i < size; i++)
     {
         A* a = vec[i];
         AB_CD_E* ab_cd_e = custom_dynamic_cast<AB_CD_E>(a);        
     }   
-    unsigned elapsedFAKE=clock()-t0;
-    printf("FAKE RTTI elapsed %d\n\n", elapsedFAKE);
+    unsigned elapsedFAST=clock()-t0;
+    printf("FAST RTTI elapsed %d\n\n", elapsedFAST);
 #endif
 
     t0=clock();
