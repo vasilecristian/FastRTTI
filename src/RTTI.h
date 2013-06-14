@@ -1,14 +1,12 @@
 /************************************************************************/
 /*File created on 09.2012 by Cristian Vasile (vasile.cristian@gmail.com)*/
 /************************************************************************/
-
 #ifndef RTTI_H
 #define RTTI_H
 
-//#include <typeinfo>
 #include <map>
 
-namespace vsge
+namespace fastrtti
 {
 
     /**
@@ -32,14 +30,7 @@ namespace vsge
         * All the pears from this map represent all the types of an instance.
         */
         std::map<int, void*> m_inheritanceChain;
-
-
-        /**
-        * This member store the pointer to the last element of inheritance chain.
-        */
-        //void* m_ptr;
-
-
+        
         /**
         * The constructor.
         */
@@ -120,8 +111,6 @@ namespace vsge
          */
         virtual ~IRTTI()
         {
-            //this was so wrong!!!!
-            //m_inheritanceChain.clear();
         }
     };
 
@@ -173,6 +162,6 @@ namespace vsge
         BasicTypeRTTI(): m_val(0) {}
     };
 
-} //namespace vsge
+} //namespace fastrtti
 
 #endif //RTTI_H

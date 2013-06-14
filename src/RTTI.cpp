@@ -2,10 +2,9 @@
 /*File created on 09.2012 by Cristian Vasile (vasile.cristian@gmail.com)*/
 /************************************************************************/
 
-#include "vsgePCH.h"
 #include "RTTI.h"
 
-namespace vsge
+namespace fastrtti
 {
     int RTTI::s_unicIDIncrement = 0;
 
@@ -37,5 +36,5 @@ namespace vsge
     }
 
 
-} //namespace vsge
+} //namespace fastrtti
 
