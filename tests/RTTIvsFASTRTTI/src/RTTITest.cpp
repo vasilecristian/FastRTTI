@@ -1,7 +1,7 @@
 // RTTITest.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
+#include <stdio.h>
 #include <time.h>
 #include <vector>
 
@@ -314,7 +314,7 @@ public:
     }
 };
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char* argv[])
 {
 
     std::vector<A*> vec;

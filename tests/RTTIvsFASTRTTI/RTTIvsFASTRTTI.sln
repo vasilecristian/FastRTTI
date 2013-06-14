@@ -6,15 +6,15 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
-		Release_FASTRTTI|Win32 = Release_FASTRTTI|Win32
+		Release_FAST|Win32 = Release_FAST|Win32
 		Release_RTTI|Win32 = Release_RTTI|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Debug|Win32.ActiveCfg = Debug|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Debug|Win32.Build.0 = Debug|Win32
-		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FASTRTTI|Win32.ActiveCfg = Release_FAKE|Win32
-		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FASTRTTI|Win32.Build.0 = Release_FAKE|Win32
+		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FAST|Win32.ActiveCfg = Release_FAKE|Win32
+		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_FAST|Win32.Build.0 = Release_FAKE|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_RTTI|Win32.ActiveCfg = Release_RTTI|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release_RTTI|Win32.Build.0 = Release_RTTI|Win32
 		{A22C4C89-2252-481D-AFE0-79B3DB462131}.Release|Win32.ActiveCfg = Release|Win32
