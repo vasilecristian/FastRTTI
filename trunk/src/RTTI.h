@@ -21,46 +21,65 @@ namespace fastrtti
     protected:
 
         /**
-        * unic incremental ID generator.
-        */
+         * Unique incremental ID generator.
+         * Each class will increment this at the first instance created.
+         */
         static int s_unicIDIncrement;
 
         /**
-        * Is the map used as inheritance chain. The map must be fast because it's key is an int.
-        * All the pears from this map represent all the types of an instance.
-        */
+         * Is the map used as inheritance chain. The map must be fast because it's key is an int.
+         * All the pears from this map represent all the types of an instance.
+         */
         std::map<int, void*> m_inheritanceChain;
         
         /**
         * The constructor.
         */
-        RTTI();
+        RTTI()
+        {
+        }
 
      public:
+
         /**
         * The destructor.
         */
-        virtual ~RTTI();
+        virtual ~RTTI()
+        {
+            m_inheritanceChain.clear();
+        }
+
 
     
         /**
-        * This function detects if this instance is of type type.
+        * This function detects if this instance is of type with typeID.
         *
-        * @param type is an int meaning the type ID of the object.
-        * @return void* a pointer to an instance of class that have type type, Or NULL if 
-        *         this instance does not have type type.
+        * @param typeID is an int meaning the type ID of the object.
+        * @return void* a pointer to an instance of class that have type typeID, Or NULL if 
+        *         this instance does not have type typeID.
         */
-        void* IsKindOf(int type);
+        inline void* IsKindOf(int typeID)
+        {   
+            return m_inheritanceChain[typeID];
+        }
 
         /**
         * This function prints in console the content of inheritance chain.
         */
-        virtual void PrintInheritanceChain();
+        inline void PrintInheritanceChain()
+        {   
+            std::map<int, void*>::iterator inheritanceChainIT;
+            for ( inheritanceChainIT=m_inheritanceChain.begin() ; inheritanceChainIT != m_inheritanceChain.end(); inheritanceChainIT++ )
+                printf("'%d' = %d = %d\n", (*inheritanceChainIT).first, (*inheritanceChainIT).second, (*inheritanceChainIT).first);
+        }
 
         /**
         * Return the std::map with the inheritance chain.
         */
-        const std::map<int, void*> GetInheritanceChain();
+        inline const std::map<int, void*> GetInheritanceChain()
+        {
+            return m_inheritanceChain;
+        }
 
     };
 
