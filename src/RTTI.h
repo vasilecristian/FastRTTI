@@ -53,7 +53,6 @@ namespace fastrtti
         */
         virtual ~RTTI()
         {
-            //m_inheritanceChain.clear();
         }
 
 
@@ -73,27 +72,7 @@ namespace fastrtti
                     return m_inheritanceChainPTR[i];
             }
             return NULL;    
-            //return m_inheritanceChain[typeID];
         }
-
-        /**
-        * This function prints in console the content of inheritance chain.
-        */
-        inline void PrintInheritanceChain()
-        {   
-            //std::map<int, void*>::iterator inheritanceChainIT;
-            //for ( inheritanceChainIT=m_inheritanceChain.begin() ; inheritanceChainIT != m_inheritanceChain.end(); inheritanceChainIT++ )
-            //    printf("'%d' = %d = %d\n", (*inheritanceChainIT).first, (*inheritanceChainIT).second, (*inheritanceChainIT).first);
-        }
-
-        /**
-        * Return the std::map with the inheritance chain.
-        */
-        //inline const std::map<int, void*> GetInheritanceChain()
-        //{
-        //    return m_inheritanceChain;
-        //}
-
     };
 
 
@@ -137,9 +116,7 @@ namespace fastrtti
         {
             m_inheritanceChainCounter++;
             m_inheritanceChainID[m_inheritanceChainCounter] = GetTypeID();
-            m_inheritanceChainPTR[m_inheritanceChainCounter] = (T*)this;
-            
-            //m_inheritanceChain[GetTypeID()] = (T*)this;
+            m_inheritanceChainPTR[m_inheritanceChainCounter] = (T*)this; //the cast to T* is very important.
         }
 
         /**
