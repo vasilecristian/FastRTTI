@@ -42,8 +42,8 @@ namespace fastrtti
         */
         RTTI():m_inheritanceChainCounter(-1)
         {
-            memset(m_inheritanceChainID, -1, RTTI_CHAIN_MAX_SIZE);
-            memset(m_inheritanceChainPTR, -1, RTTI_CHAIN_MAX_SIZE);   
+            memset(m_inheritanceChainID, -1, sizeof(int)*RTTI_CHAIN_MAX_SIZE);
+            memset(m_inheritanceChainPTR, NULL, sizeof(void*)*RTTI_CHAIN_MAX_SIZE);   
         }
 
      public:
@@ -67,7 +67,7 @@ namespace fastrtti
         */
         inline void* IsKindOf(int typeID)
         {   
-            for(int i=0; i<m_inheritanceChainCounter; ++i)
+            for(int i=0; i<=m_inheritanceChainCounter; i++)
             {
                 if(m_inheritanceChainID[i] == typeID)
                     return m_inheritanceChainPTR[i];
@@ -135,8 +135,9 @@ namespace fastrtti
          */
         IRTTI()
         {
-            m_inheritanceChainID[++m_inheritanceChainCounter] = GetTypeID();
-            m_inheritanceChainPTR[m_inheritanceChainCounter] = this;
+            m_inheritanceChainCounter++;
+            m_inheritanceChainID[m_inheritanceChainCounter] = GetTypeID();
+            m_inheritanceChainPTR[m_inheritanceChainCounter] = (T*)this;
             
             //m_inheritanceChain[GetTypeID()] = (T*)this;
         }
