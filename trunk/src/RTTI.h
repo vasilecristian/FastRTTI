@@ -6,6 +6,10 @@
 
 #include <map>
 
+#if !defined(RTTI_CHAIN_MAX_SIZE)
+#define RTTI_CHAIN_MAX_SIZE 32
+#endif
+
 namespace fastrtti
 {
 
@@ -27,16 +31,19 @@ namespace fastrtti
         static int s_unicIDIncrement;
 
         /**
-         * Is the map used as inheritance chain. The map must be fast because it's key is an int.
-         * All the pears from this map represent all the types of an instance.
+         * used plain table to be the fastest RTTI.
          */
-        std::map<int, void*> m_inheritanceChain;
+        int m_inheritanceChainID[RTTI_CHAIN_MAX_SIZE];
+        void* m_inheritanceChainPTR[RTTI_CHAIN_MAX_SIZE];
+        int m_inheritanceChainCounter;
         
         /**
         * The constructor.
         */
-        RTTI()
+        RTTI():m_inheritanceChainCounter(-1)
         {
+            memset(m_inheritanceChainID, -1, RTTI_CHAIN_MAX_SIZE);
+            memset(m_inheritanceChainPTR, -1, RTTI_CHAIN_MAX_SIZE);   
         }
 
      public:
@@ -46,7 +53,7 @@ namespace fastrtti
         */
         virtual ~RTTI()
         {
-            m_inheritanceChain.clear();
+            //m_inheritanceChain.clear();
         }
 
 
@@ -60,7 +67,13 @@ namespace fastrtti
         */
         inline void* IsKindOf(int typeID)
         {   
-            return m_inheritanceChain[typeID];
+            for(int i=0; i<m_inheritanceChainCounter; ++i)
+            {
+                if(m_inheritanceChainID[i] == typeID)
+                    return m_inheritanceChainPTR[i];
+            }
+            return NULL;    
+            //return m_inheritanceChain[typeID];
         }
 
         /**
@@ -68,18 +81,18 @@ namespace fastrtti
         */
         inline void PrintInheritanceChain()
         {   
-            std::map<int, void*>::iterator inheritanceChainIT;
-            for ( inheritanceChainIT=m_inheritanceChain.begin() ; inheritanceChainIT != m_inheritanceChain.end(); inheritanceChainIT++ )
-                printf("'%d' = %d = %d\n", (*inheritanceChainIT).first, (*inheritanceChainIT).second, (*inheritanceChainIT).first);
+            //std::map<int, void*>::iterator inheritanceChainIT;
+            //for ( inheritanceChainIT=m_inheritanceChain.begin() ; inheritanceChainIT != m_inheritanceChain.end(); inheritanceChainIT++ )
+            //    printf("'%d' = %d = %d\n", (*inheritanceChainIT).first, (*inheritanceChainIT).second, (*inheritanceChainIT).first);
         }
 
         /**
         * Return the std::map with the inheritance chain.
         */
-        inline const std::map<int, void*> GetInheritanceChain()
-        {
-            return m_inheritanceChain;
-        }
+        //inline const std::map<int, void*> GetInheritanceChain()
+        //{
+        //    return m_inheritanceChain;
+        //}
 
     };
 
@@ -122,7 +135,10 @@ namespace fastrtti
          */
         IRTTI()
         {
-            m_inheritanceChain[GetTypeID()] = (T*)this;
+            m_inheritanceChainID[++m_inheritanceChainCounter] = GetTypeID();
+            m_inheritanceChainPTR[m_inheritanceChainCounter] = this;
+            
+            //m_inheritanceChain[GetTypeID()] = (T*)this;
         }
 
         /**
