@@ -10,6 +10,13 @@
 #define RTTI_CHAIN_MAX_SIZE 32
 #endif
 
+#if !defined(RTTI_ASSERT)
+#define RTTI_ASSERT
+#endif
+
+
+
+
 namespace fastrtti
 {
 
@@ -115,6 +122,7 @@ namespace fastrtti
         IRTTI()
         {
             m_inheritanceChainCounter++;
+            RTTI_ASSERT(m_inheritanceChainCounter < RTTI_CHAIN_MAX_SIZE);
             m_inheritanceChainID[m_inheritanceChainCounter] = GetTypeID();
             m_inheritanceChainPTR[m_inheritanceChainCounter] = (T*)this; //the cast to T* is very important.
         }
