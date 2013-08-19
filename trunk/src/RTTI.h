@@ -80,6 +80,18 @@ namespace fastrtti
             }
             return NULL;    
         }
+
+
+		/**
+        * This function is a helper. Use this only in DEBUG mode as assert.
+        *
+        * @return bool that always is true.
+        */
+        inline bool IsRTTI()
+        {   
+            return true;    
+        }
+
     };
 
 
