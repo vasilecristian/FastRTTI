@@ -6,6 +6,11 @@
 
 #include <map>
 
+#if defined(_DEBUG) || defined(DEBUG)
+#include <typeinfo>
+#endif //DEBUG
+
+
 #if !defined(RTTI_CHAIN_MAX_SIZE)
 #define RTTI_CHAIN_MAX_SIZE 32
 #endif
@@ -43,6 +48,13 @@ namespace fastrtti
         int m_inheritanceChainID[RTTI_CHAIN_MAX_SIZE];
         void* m_inheritanceChainPTR[RTTI_CHAIN_MAX_SIZE];
         int m_inheritanceChainCounter;
+
+#if defined(_DEBUG) || defined(DEBUG)
+        /** This is the table with function names. Only for debugging purpose.
+         *  Only in debug mode is used!
+         */ 
+        std::string m_inheritanceChainNames[RTTI_CHAIN_MAX_SIZE];
+#endif //DEBUG
         
         /**
         * The constructor.
@@ -137,6 +149,9 @@ namespace fastrtti
             RTTI_ASSERT(m_inheritanceChainCounter < RTTI_CHAIN_MAX_SIZE);
             m_inheritanceChainID[m_inheritanceChainCounter] = GetTypeID();
             m_inheritanceChainPTR[m_inheritanceChainCounter] = (T*)this; //the cast to T* is very important.
+#if defined(_DEBUG) || defined(DEBUG)
+            m_inheritanceChainNames[m_inheritanceChainCounter] = typeid((T*)this).name();
+#endif //DEBUG
         }
 
         /**
