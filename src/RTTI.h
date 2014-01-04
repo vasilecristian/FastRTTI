@@ -198,7 +198,7 @@ namespace fastrtti
 
 
     /**
-     * Basic Types
+     * Basic Types. This template is used to declare the basic types as Int or Double
      */
     template<typename T>
     class BasicTypeRTTI: public IRTTI<T>
