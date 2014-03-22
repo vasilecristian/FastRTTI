@@ -12,6 +12,9 @@
     <ClInclude Include="..\..\include\RTTI.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\smart_ptr.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\RTTI.cpp">
