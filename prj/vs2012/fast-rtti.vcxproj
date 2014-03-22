@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\RTTI.h" />
+    <ClInclude Include="..\..\include\smart_ptr.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\RTTI.cpp" />

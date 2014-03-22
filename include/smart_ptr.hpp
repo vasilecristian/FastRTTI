@@ -5,18 +5,14 @@
 #ifndef SMARTP_BASE_H
 #define SMARTP_BASE_H
 
-#include "vsge/vsge.h"
-#include "vsge/base/MemLeakDetector.h"
-#include "vsge/base/fast-rtti/RTTI.h"
-
+#include <RTTI.h>
 
 #include <mutex>
 #include <memory>
 
-using namespace fastrtti;
+#define USE_THREAD_SAFE_SMARTP 1
 
-
-namespace vsge
+namespace fastrtti
 {
 
     /** This is the template class implementation of a smart pointer. */
@@ -46,22 +42,22 @@ namespace vsge
         smart_ptr()
         {	
             #if USE_THREAD_SAFE_SMARTP
-			m_mutexProtection = NEW std::recursive_mutex;
+			m_mutexProtection = new std::recursive_mutex;
 			#endif //USE_THREAD_SAFE_SMARTP
 
 			m_pData = nullptr;
-			m_referenceCounter = NEW long(1);
+			m_referenceCounter = new long(1);
         }
 
         /** The constructor, initialize the reference counter with value 1. */
         smart_ptr(T* pValue)
         {
             #if USE_THREAD_SAFE_SMARTP
-			m_mutexProtection = NEW std::recursive_mutex;
+			m_mutexProtection = new std::recursive_mutex;
 			#endif //USE_THREAD_SAFE_SMARTP
 
 			m_pData = pValue;
-			m_referenceCounter = NEW long(1);
+			m_referenceCounter = new long(1);
         }
 
 
