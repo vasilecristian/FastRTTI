@@ -2,7 +2,7 @@
 /*File created on 09.2012 by Cristian Vasile (vasile.cristian@gmail.com)*/
 /************************************************************************/
 
-#include "RTTI.h"
+#include <RTTI.h>
 
 namespace fastrtti
 {
