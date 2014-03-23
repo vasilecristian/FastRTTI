@@ -7,7 +7,7 @@
 
 
 #ifdef USE_FAST_RTTI
-#include "../../../src/RTTI.h"
+#include "RTTI.h"
 using namespace fastrtti;
 #endif
 
