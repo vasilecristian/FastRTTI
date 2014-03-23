@@ -15,9 +15,6 @@
     <ClInclude Include="..\..\include\RTTI.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\smart_ptr.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\unittest\smart_ptr_unittest.h">
       <Filter>include\unittest</Filter>
     </ClInclude>
