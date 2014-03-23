@@ -187,15 +187,14 @@ namespace fastrtti
      * @return the pointer of type T or null if the object cannot be casted.
      */
     template<typename T>
-    static T* fastrtti_dynamic_cast(RTTI* objToCast)
+    static T* dyna_cast(RTTI* objToCast)
     {
         if(objToCast == NULL) 
             return NULL;
 
         return (T*)objToCast->IsKindOf(T::IRTTI::GetTypeID());
     }
-    #define custom_dynamic_cast fastrtti_dynamic_cast
-
+    
 
     /**
      * Basic Types. This template is used to declare the basic types as Int or Double
