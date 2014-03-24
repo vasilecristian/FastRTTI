@@ -7,16 +7,10 @@
     <Filter Include="include">
       <UniqueIdentifier>{74194fb5-255c-4116-9a0c-f219ad85b3d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\unittest">
-      <UniqueIdentifier>{2e49cb2b-668a-44bb-bfa6-c92e4ce18d8a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\RTTI.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\unittest\smart_ptr_unittest.h">
-      <Filter>include\unittest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
