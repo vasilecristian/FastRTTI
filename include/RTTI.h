@@ -5,6 +5,7 @@
 #define RTTI_H
 
 #include <map>
+#include <string.h>
 
 #if defined(_DEBUG) || defined(DEBUG)
 #include <typeinfo>
@@ -62,7 +63,7 @@ namespace fastrtti
         RTTI():m_inheritanceChainCounter(-1)
         {
             memset(m_inheritanceChainID, -1, sizeof(int)*RTTI_CHAIN_MAX_SIZE);
-            memset(m_inheritanceChainPTR, NULL, sizeof(void*)*RTTI_CHAIN_MAX_SIZE);   
+            memset(m_inheritanceChainPTR, 0, sizeof(void*)*RTTI_CHAIN_MAX_SIZE);
         }
 
      public:
