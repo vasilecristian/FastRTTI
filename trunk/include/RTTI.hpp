@@ -38,12 +38,6 @@ namespace fastrtti
     protected:
 
         /**
-         * Unique incremental ID generator.
-         * Each class will increment this at the first instance created.
-         */
-        static int s_unicIDIncrement;
-
-        /**
          * used plain table to be the fastest RTTI.
          */
         int m_inheritanceChainID[RTTI_CHAIN_MAX_SIZE];
@@ -118,6 +112,7 @@ namespace fastrtti
     template<typename T>
     class IRTTI : public virtual RTTI
     {
+        static int m_typeID;
     public:
 
         /**
@@ -127,15 +122,7 @@ namespace fastrtti
          */
         static int GetTypeID()
         {
-            static int m_typeID = 0;
-            static bool m_typeIDReady = false;
-            
-            if(!m_typeIDReady)
-            {
-                m_typeID = s_unicIDIncrement++;
-                m_typeIDReady = true;
-            }
-            return m_typeID;
+            return (int)&m_typeID;
         }
 
 
@@ -162,6 +149,9 @@ namespace fastrtti
         {
         }
     };
+
+    template<typename T>
+    int IRTTI<T>::m_typeID = 0;
 
 
 

@@ -20,11 +20,10 @@ INCLUDEPATH += /usr/local/include
 INCLUDEPATH += ../../include/
 
 
-SOURCES += \
-    ../../source/RTTI.cpp
+SOURCES +=
 
 HEADERS += \
-    ../../include/RTTI.h
+    ../../include/RTTI.hpp
 unix {
     target.path = /usr/lib
     INSTALLS += target
