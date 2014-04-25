@@ -7,7 +7,7 @@
 
 
 #ifdef USE_FAST_RTTI
-#include "RTTI.h"
+#include "RTTI.hpp"
 using namespace fastrtti;
 #endif
 
@@ -332,7 +332,7 @@ int main(int argc, char* argv[])
     for(int i=0; i < size; i++)
     {
         A* a = vec[i];
-        AB_CD_E* ab_cd_e = custom_dynamic_cast<AB_CD_E>(a);        
+        AB_CD_E* ab_cd_e = dyna_cast<AB_CD_E>(a);        
     }   
     unsigned elapsedFAST=clock()-t0;
     printf("FAST RTTI elapsed %d\n\n", elapsedFAST);

@@ -145,10 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\RTTI.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\source\RTTI.cpp" />
+    <ClInclude Include="..\..\include\RTTI.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
