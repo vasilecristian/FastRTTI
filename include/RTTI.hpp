@@ -40,7 +40,7 @@ namespace fastrtti
         /**
          * used plain table to be the fastest RTTI.
          */
-        int m_inheritanceChainID[RTTI_CHAIN_MAX_SIZE];
+        intptr_t m_inheritanceChainID[RTTI_CHAIN_MAX_SIZE];
         void* m_inheritanceChainPTR[RTTI_CHAIN_MAX_SIZE];
         int m_inheritanceChainCounter;
 
@@ -112,7 +112,7 @@ namespace fastrtti
     template<typename T>
     class IRTTI : public virtual RTTI
     {
-        static int m_typeID;
+        static intptr_t m_typeID;
     public:
 
         /**
@@ -120,9 +120,9 @@ namespace fastrtti
          *
          * @return the type ID  of this object.
          */
-        static int GetTypeID()
+        static intptr_t GetTypeID()
         {
-            return (int)&m_typeID;
+            return (intptr_t)&m_typeID;
         }
 
 
@@ -151,7 +151,7 @@ namespace fastrtti
     };
 
     template<typename T>
-    int IRTTI<T>::m_typeID = 0;
+    intptr_t IRTTI<T>::m_typeID = 0;
 
 
 
