@@ -120,10 +120,7 @@ namespace fastrtti
          *
          * @return the type ID  of this object.
          */
-        static intptr_t GetTypeID()
-        {
-            return (intptr_t)&m_typeID;
-        }
+        static intptr_t GetTypeID();
 
 
     protected:
@@ -151,9 +148,13 @@ namespace fastrtti
     };
 
     template<typename T>
-    intptr_t IRTTI<T>::m_typeID = 0;
+    intptr_t IRTTI<T>::m_typeID(0);
 
-
+    template<typename T>
+    intptr_t IRTTI<T>::GetTypeID()
+    {
+        return (intptr_t)&m_typeID;
+    }
 
     /**
      * Static function that check if the pointer objToTest is kind of T class
@@ -167,7 +168,7 @@ namespace fastrtti
         if(objToTest == NULL) 
             return false;
 
-        return objToTest->IsKindOf(T::IRTTI::GetTypeID()) != NULL;
+        return objToTest->IsKindOf(IRTTI<T>::GetTypeID()) != NULL;
     }
 
 
@@ -183,7 +184,7 @@ namespace fastrtti
         if(objToCast == NULL) 
             return NULL;
 
-        return (T*)objToCast->IsKindOf(T::IRTTI::GetTypeID());
+        return (T*)objToCast->IsKindOf(IRTTI<T>::GetTypeID());
     }
     
 
