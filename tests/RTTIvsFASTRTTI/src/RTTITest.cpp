@@ -7,7 +7,7 @@
 
 
 #ifdef USE_FAST_RTTI
-#include "RTTI.hpp"
+#include "FastRTTI/RTTI.hpp"
 using namespace fastrtti;
 #endif
 
@@ -316,41 +316,47 @@ public:
 
 int main(int argc, char* argv[])
 {
+	for (int a = 0; a < 10; a++)
+	{
+		std::vector<A*> vec;
 
-    std::vector<A*> vec;
+		int size = 200000;
 
-    int size = 200000;
+		for (int i = 0; i < size; i++)
+		{
+			vec.push_back(new AB_CD_E());
+		}
 
-    for(int i=0; i < size; i++)
-    {
-        vec.push_back(new AB_CD_E());
-    }
-
-    unsigned t0=clock();
+		unsigned t0 = clock();
 
 #ifdef USE_FAST_RTTI
-    for(int i=0; i < size; i++)
-    {
-        A* a = vec[i];
-        AB_CD_E* ab_cd_e = dyna_cast<AB_CD_E>(a);        
-    }   
-    unsigned elapsedFAST=clock()-t0;
-    printf("FAST RTTI elapsed %d\n\n", elapsedFAST);
+		for (int i = 0; i < size; i++)
+		{
+			A* a = vec[i];
+			AB_CD_E* ab_cd_e = dyna_cast<AB_CD_E>(a);
+		}
+		unsigned elapsedFAST = clock() - t0;
+		printf("FAST RTTI elapsed %d\n", elapsedFAST);
 #endif
 
-    t0=clock();
+		t0 = clock();
 
 #ifdef USE_REAL_RTTI
-    for(int i=0; i < size; i++)
-    {
-        A* a = vec[i];
-        AB_CD_E* ab_cd_e = dynamic_cast<AB_CD_E*>(a);
-    }
-    unsigned elapsedREAL=clock()-t0;
-    printf("REAL RTTI elapsed %d\n\n", elapsedREAL);
+		for (int i = 0; i < size; i++)
+		{
+			A* a = vec[i];
+			AB_CD_E* ab_cd_e = dynamic_cast<AB_CD_E*>(a);
+		}
+		unsigned elapsedREAL = clock() - t0;
+		printf("REAL RTTI elapsed %d\n", elapsedREAL);
 #endif
 
-    vec.clear();
+		for (int i = 0; i < size; i++)
+		{
+			delete vec[i];
+		}
+		vec.clear();
+	}
 
     printf("Press any key!");
     getchar();
