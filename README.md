@@ -96,42 +96,45 @@ int main(int argc, char* argv[])
     getchar();
     return 0;
 }
-```
+
 The outpus is:
-`The inheritance chain (only in debug)'
-`for AB_CD_E* obj1 = new AB_CD_E() object is:`
-`class A *`
-`class B *`
-`class AB *`
-`class C *
-`class D *
-`class CD *
-`class E *
-`Is object of A type? 1
-`Is object of E type? 1`
-` `
 `The inheritance chain (only in debug)
-`for A* obj2 = new AB_CD_E() object is:
-`class A *
-`class B *
-`class AB *
-`class C *
-`class D *
-`class CD *
-`class E *
-`Is object of A type? 1
-`Is object of E type? 1
-` `
-`The inheritance chain (only in debug)
-`for AB* obj3 = new AB() object is :
-`class A *
-`class B *
-`Is object of A type? 1
-`Is object of E type? 0
-` `
-`The inheritance chain (only in debug)
-`for CD* obj4 = new CD() object is:
-`class C *
-`class D *
-`Is object of A type? 0`
-`Is object of E type? 0`
+for AB_CD_E* obj1 = new AB_CD_E() object is:
+class A *
+class B *
+class AB *
+class C *
+class D *
+class CD *
+class E *
+Is object of A type? 1
+Is object of E type? 1
+
+The inheritance chain (only in debug)
+for A* obj2 = new AB_CD_E() object is:
+class A *
+class B *
+class AB *
+class C *
+class D *
+class CD *
+class E *
+Is object of A type? 1
+Is object of E type? 1
+
+The inheritance chain (only in debug)
+for AB* obj3 = new AB() object is :
+class A *
+class B *
+Is object of A type? 1
+Is object of E type? 0
+
+The inheritance chain (only in debug)
+for CD* obj4 = new CD() object is:
+class C *
+class D *
+Is object of A type? 0
+Is object of E type? 0
+
+Press any key!
+```
