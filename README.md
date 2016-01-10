@@ -13,7 +13,8 @@ Public Domain. If my licensing is wrong, please let me know. Use at your own ris
 
 
 ## Overview
-`FastRTTI` have two simple classes that can used: IRTTI and RTTI . The speed tests results are:
+`FastRTTI` have two simple classes that can used: IRTTI and RTTI . 
+The speed tests `FastRTTI` VS `compiler/real RTTI` results are:
 ```c++
 FAST RTTI elapsed 8000
 REAL RTTI elapsed 34002
@@ -37,6 +38,8 @@ FAST RTTI elapsed 7001
 REAL RTTI elapsed 31001
 Press any key!
 ```
+Compiler: Visual Studio 2013 (Express).
+
 
 Example: 
 ```c++
