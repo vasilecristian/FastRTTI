@@ -5,7 +5,8 @@
 #define RTTI_H
 
 #include <map>
-#include <string.h>
+#include <string>
+#include <array>
 
 #if defined(_DEBUG) || defined(DEBUG)
 #include <typeinfo>
@@ -40,24 +41,28 @@ namespace fastrtti
         /**
          * used plain table to be the fastest RTTI.
          */
-        intptr_t m_inheritanceChainID[RTTI_CHAIN_MAX_SIZE];
-        void* m_inheritanceChainPTR[RTTI_CHAIN_MAX_SIZE];
+        std::array<intptr_t, RTTI_CHAIN_MAX_SIZE> m_inheritanceChainID;
+        std::array<void*, RTTI_CHAIN_MAX_SIZE> m_inheritanceChainPTR;
         int m_inheritanceChainCounter;
 
 #if defined(_DEBUG) || defined(DEBUG)
         /** This is the table with function names. Only for debugging purpose.
-         *  Only in debug mode is used!
-         */ 
-        std::string m_inheritanceChainNames[RTTI_CHAIN_MAX_SIZE];
+         *  Only in debug mode is used!*/ 
+        std::array<std::string, RTTI_CHAIN_MAX_SIZE> m_inheritanceChainNames;
 #endif //DEBUG
         
-        /**
-        * The constructor.
-        */
+        /** The constructor.*/
         RTTI():m_inheritanceChainCounter(-1)
         {
-            memset(m_inheritanceChainID, -1, sizeof(int)*RTTI_CHAIN_MAX_SIZE);
-            memset(m_inheritanceChainPTR, 0, sizeof(void*)*RTTI_CHAIN_MAX_SIZE);
+            for (auto& id : m_inheritanceChainID)
+            {
+                id = -1;
+            }
+
+            for (auto& ptr : m_inheritanceChainPTR)
+            {
+                ptr = 0;
+            }
         }
 
      public:
@@ -76,18 +81,36 @@ namespace fastrtti
         *
         * @param typeID is an int meaning the type ID of the object.
         * @return void* a pointer to an instance of class that have type typeID, Or NULL if 
-        *         this instance does not have type typeID.
-        */
-        inline void* IsKindOf(int typeID)
+        *         this instance does not have type typeID.*/
+        inline void* GetPtrKindOf(int typeID)
         {   
             for(int i=0; i<=m_inheritanceChainCounter; i++)
             {
                 if(m_inheritanceChainID[i] == typeID)
                     return m_inheritanceChainPTR[i];
             }
-            return NULL;    
+            return nullptr;    
         }
 
+        /**
+        * This function detects if this instance is of type with typeID.
+        *
+        * @param typeID is an int meaning the type ID of the object.
+        * @return true if this instance have type typeID, Or false if
+        *         this instance does not have type typeID.*/
+        inline bool IsKindOf(int typeID)
+        {
+            return GetPtrKindOf(typeID);
+        }
+
+        const std::vector<std::string> GetInheritanceChainNames()
+        {
+#if defined(_DEBUG) || defined(DEBUG)
+            return std::vector<std::string>(m_inheritanceChainNames.begin(), m_inheritanceChainNames.begin() + m_inheritanceChainCounter);
+#else
+            return std::vector<std::string>();
+#endif
+        }
 
 		/**
         * This function is a helper. Use this only in DEBUG mode as assert.
@@ -122,7 +145,6 @@ namespace fastrtti
          */
         static intptr_t GetTypeID();
 
-
     protected:
 
         /**
@@ -138,6 +160,7 @@ namespace fastrtti
             m_inheritanceChainNames[m_inheritanceChainCounter] = typeid((T*)this).name();
 #endif //DEBUG
         }
+
 
         /**
          * The IRTTI destructor.
@@ -168,7 +191,7 @@ namespace fastrtti
         if(objToTest == NULL) 
             return false;
 
-        return objToTest->IsKindOf(IRTTI<T>::GetTypeID()) != NULL;
+        return objToTest->GetPtrKindOf(IRTTI<T>::GetTypeID()) != NULL;
     }
 
 
@@ -184,7 +207,7 @@ namespace fastrtti
         if(objToCast == NULL) 
             return NULL;
 
-        return (T*)objToCast->IsKindOf(IRTTI<T>::GetTypeID());
+        return (T*)objToCast->GetPtrKindOf(IRTTI<T>::GetTypeID());
     }
     
 

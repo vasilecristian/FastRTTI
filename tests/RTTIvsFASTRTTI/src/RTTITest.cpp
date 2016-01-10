@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <vector>
+#include <chrono>
 
 
 #ifdef USE_FAST_RTTI
@@ -320,14 +321,14 @@ int main(int argc, char* argv[])
 	{
 		std::vector<A*> vec;
 
-		int size = 200000;
+		int size = 80000;
 
 		for (int i = 0; i < size; i++)
 		{
 			vec.push_back(new AB_CD_E());
 		}
 
-		unsigned t0 = clock();
+        unsigned long t0 = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 #ifdef USE_FAST_RTTI
 		for (int i = 0; i < size; i++)
@@ -335,11 +336,11 @@ int main(int argc, char* argv[])
 			A* a = vec[i];
 			AB_CD_E* ab_cd_e = dyna_cast<AB_CD_E>(a);
 		}
-		unsigned elapsedFAST = clock() - t0;
+        unsigned long elapsedFAST = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count() -t0;
 		printf("FAST RTTI elapsed %d\n", elapsedFAST);
 #endif
 
-		t0 = clock();
+        t0 = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 #ifdef USE_REAL_RTTI
 		for (int i = 0; i < size; i++)
@@ -347,7 +348,7 @@ int main(int argc, char* argv[])
 			A* a = vec[i];
 			AB_CD_E* ab_cd_e = dynamic_cast<AB_CD_E*>(a);
 		}
-		unsigned elapsedREAL = clock() - t0;
+        unsigned long elapsedREAL = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - t0;
 		printf("REAL RTTI elapsed %d\n", elapsedREAL);
 #endif
 
