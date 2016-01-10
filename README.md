@@ -41,7 +41,9 @@ Press any key!
 Compiler: Visual Studio 2013 (Express).
 
 
-Example: 
+
+## Example: 
+
 ```c++
 #include <stdio.h>
 #include <time.h>
