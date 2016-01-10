@@ -13,7 +13,30 @@ Public Domain. If my licensing is wrong, please let me know. Use at your own ris
 
 
 ## Overview
-`FastRTTI` have two simple classes that can used: IRTTI and RTTI .
+`FastRTTI` have two simple classes that can used: IRTTI and RTTI . The speed tests results are:
+```c++
+FAST RTTI elapsed 8000
+REAL RTTI elapsed 34002
+FAST RTTI elapsed 8000
+REAL RTTI elapsed 33002
+FAST RTTI elapsed 9001
+REAL RTTI elapsed 33002
+FAST RTTI elapsed 7000
+REAL RTTI elapsed 34002
+FAST RTTI elapsed 8001
+REAL RTTI elapsed 33001
+FAST RTTI elapsed 7001
+REAL RTTI elapsed 33002
+FAST RTTI elapsed 10001
+REAL RTTI elapsed 33002
+FAST RTTI elapsed 9001
+REAL RTTI elapsed 33002
+FAST RTTI elapsed 8001
+REAL RTTI elapsed 33002
+FAST RTTI elapsed 7001
+REAL RTTI elapsed 31001
+Press any key!
+```
 
 Example: 
 ```c++
