@@ -321,7 +321,7 @@ int main(int argc, char* argv[])
 	{
 		std::vector<A*> vec;
 
-		int size = 80000;
+		int size = 160000;
 
 		for (int i = 0; i < size; i++)
 		{

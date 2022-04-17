@@ -27,20 +27,16 @@
 namespace fastrtti
 {
 
-    /**
-     * The RTTI class simulates the run time type identification system.
+    /** The RTTI class simulates the run time type identification system.
      * This is the base class for Interface RTTI (aka IRTTI) template.
      * You cannot create objects of this type directly. You need to 
-     * derive this.
-     */
+     * create a clas that derive this.*/
     class RTTI
     {
 
     protected:
 
-        /**
-         * used plain table to be the fastest RTTI.
-         */
+        /** used plain table to be the fastest RTTI. */
         std::array<intptr_t, RTTI_CHAIN_MAX_SIZE> m_inheritanceChainID;
         std::array<void*, RTTI_CHAIN_MAX_SIZE> m_inheritanceChainPTR;
         int m_inheritanceChainCounter;
@@ -67,18 +63,14 @@ namespace fastrtti
 
      public:
 
-        /**
-        * The destructor.
-        */
+        /** The destructor. */
         virtual ~RTTI()
         {
         }
 
 
     
-        /**
-        * This function detects if this instance is of type with typeID.
-        *
+        /** This function return the pointer of type typeID in case exists.
         * @param typeID is an int meaning the type ID of the object.
         * @return void* a pointer to an instance of class that have type typeID, Or NULL if 
         *         this instance does not have type typeID.*/
@@ -92,9 +84,7 @@ namespace fastrtti
             return nullptr;    
         }
 
-        /**
-        * This function detects if this instance is of type with typeID.
-        *
+        /** This function detects if this instance is of type with typeID.
         * @param typeID is an int meaning the type ID of the object.
         * @return true if this instance have type typeID, Or false if
         *         this instance does not have type typeID.*/
@@ -112,11 +102,8 @@ namespace fastrtti
 #endif
         }
 
-		/**
-        * This function is a helper. Use this only in DEBUG mode as assert.
-        *
-        * @return bool that always is true.
-        */
+		/** This function is a helper. Use this only in DEBUG mode as assert.
+        * @return bool that always is true.*/
         inline bool IsRTTI()
         {   
             return true;    
@@ -128,28 +115,21 @@ namespace fastrtti
     
     
 
-    /**
-     * The IRTTI class template is the RTTI interface that must be used for all classes
-     * that need to have RTTI features.
-     */                  
+    /** The IRTTI class template is the interface that must be used for all classes
+     * that need to have RTTI features.*/                  
     template<typename T>
     class IRTTI : public virtual RTTI
     {
         static intptr_t m_typeID;
     public:
 
-        /**
-         * This function returns the type ID  of this object.
-         *
-         * @return the type ID  of this object.
-         */
+        /** This function returns the type ID  of this object.
+         * @return the type ID  of this object. */
         static intptr_t GetTypeID();
 
     protected:
 
-        /**
-         * The IRTTI constructor.
-         */
+        /** The IRTTI constructor. */
         IRTTI()
         {
             m_inheritanceChainCounter++;
@@ -162,9 +142,7 @@ namespace fastrtti
         }
 
 
-        /**
-         * The IRTTI destructor.
-         */
+        /** The IRTTI destructor. */
         virtual ~IRTTI()
         {
         }
@@ -179,12 +157,9 @@ namespace fastrtti
         return (intptr_t)&m_typeID;
     }
 
-    /**
-     * Static function that check if the pointer objToTest is kind of T class
-     *
+    /** Static function that check if the pointer objToTest is kind of T class
      * @param objToTest is an RTTI pointer.
-     * @return true if objToTest typeID is equal with T::IRTTI::GetTypeID()
-     */
+     * @return true if objToTest typeID is equal with T::IRTTI::GetTypeID() */
     template<typename T>
     static bool ObjectIsKindOf(RTTI *objToTest)
     {
@@ -195,12 +170,9 @@ namespace fastrtti
     }
 
 
-    /**
-     * Static function that is used to cast using RTTI feature.
-     *
+    /** Static function that is used to cast using RTTI feature.
      * @param objToTest is an RTTI pointer.
-     * @return the pointer of type T or null if the object cannot be casted.
-     */
+     * @return the pointer of type T or null if the object cannot be casted.*/
     template<typename T>
     static T* dyna_cast(RTTI* objToCast)
     {
@@ -211,9 +183,7 @@ namespace fastrtti
     }
     
 
-    /**
-     * Basic Types. This template is used to declare the basic types as Int or Double
-     */
+    /** Basic Types. This template is used to declare the basic types as Int or Double */
     template<typename T>
     class BasicTypeRTTI: public IRTTI<T>
     {
