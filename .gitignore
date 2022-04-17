@@ -11,3 +11,13 @@ tests/UsageTest/.vs/UsageTest/v16/Browse.VC.db
 tests/UsageTest/.vs/UsageTest/v16/ipch/AutoPCH/3ceadb80a423c0d2/USAGETEST.ipch
 tests/UsageTest/.vs/UsageTest_vs2019/v16/.suo
 tests/UsageTest/.vs/UsageTest_vs2019/v16/Browse.VC.db
+*.obj
+*.exe
+tests/UsageTest/Debug/UsageTest_vs2013.exe.recipe
+*.ilk
+tests/UsageTest/Debug/UsageTest_vs2013.log
+*.pdb
+*.tlog
+tests/UsageTest/Debug/UsageTest_vs2013.vcxproj.FileListAbsolute.txt
+*.idb
+*.user
