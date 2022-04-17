@@ -29,3 +29,14 @@ tests/UsageTest/Debug/UsageTest_vs2019.exe.recipe
 tests/UsageTest/Debug/UsageTest_vs2019.log
 tests/UsageTest/Debug/UsageTest_vs2019.vcxproj.FileListAbsolute.txt
 tests/UsageTest/UsageTest.xcworkspace/xcuserdata/vasile.cristian.xcuserdatad/UserInterfaceState.xcuserstate
+*.exe
+*.exe
+*.exe
+tests/RTTIvsFASTRTTI/vs2019/Release_BOTH/BothRTTI.exe.recipe
+*.iobj
+*.ipdb
+tests/RTTIvsFASTRTTI/vs2019/Release_BOTH/REALRTTI_vs_FASTRTTI.log
+tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/FastRTTI.exe.recipe
+tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/REALRTTI_vs_FASTRTTI.log
+*.exe
+*.exe
