@@ -8,6 +8,8 @@
 #include <string>
 #include <array>
 
+#include <iostream>
+
 #if defined(_DEBUG) || defined(DEBUG)
 #include <typeinfo>
 #endif //DEBUG
@@ -74,7 +76,7 @@ namespace fastrtti
         * @param typeID is an int meaning the type ID of the object.
         * @return void* a pointer to an instance of class that have type typeID, Or NULL if 
         *         this instance does not have type typeID.*/
-        inline void* GetPtrKindOf(int typeID)
+        inline void* GetPtrKindOf(intptr_t typeID)
         {   
             for(int i=0; i<=m_inheritanceChainCounter; i++)
             {
@@ -88,7 +90,7 @@ namespace fastrtti
         * @param typeID is an int meaning the type ID of the object.
         * @return true if this instance have type typeID, Or false if
         *         this instance does not have type typeID.*/
-        inline bool IsKindOf(int typeID)
+        inline bool IsKindOf(intptr_t typeID)
         {
             return GetPtrKindOf(typeID);
         }
@@ -154,6 +156,7 @@ namespace fastrtti
     template<typename T>
     intptr_t IRTTI<T>::GetTypeID()
     {
+		//std::cout << (intptr_t)&m_typeID << std::endl;
         return (intptr_t)&m_typeID;
     }
 
