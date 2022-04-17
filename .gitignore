@@ -40,3 +40,4 @@ tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/FastRTTI.exe.recipe
 tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/REALRTTI_vs_FASTRTTI.log
 *.exe
 *.exe
+tests/RTTIvsFASTRTTI/xcode/RTTIvsFASTRTTI.xcodeproj/project.xcworkspace/xcuserdata/vasile.cristian.xcuserdatad/UserInterfaceState.xcuserstate

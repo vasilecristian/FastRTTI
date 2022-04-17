@@ -16,6 +16,7 @@ Public Domain. If my licensing is wrong, please let me know. Use at your own ris
 `FastRTTI` have two simple classes that can used: IRTTI and RTTI . 
 The speed tests `FastRTTI` VS `compiler/real RTTI` results are:
 ```c++
+Tested on Visual Studio 2013 (Express) / Visual Studio 2019
 FAST RTTI elapsed 8000
 REAL RTTI elapsed 34002
 FAST RTTI elapsed 8000
@@ -38,8 +39,31 @@ FAST RTTI elapsed 7001
 REAL RTTI elapsed 31001
 Press any key!
 ```
-Tested with: Visual Studio 2013 (Express) and Visual Studio 2019
 
+```c++
+Tested on macos:
+FAST RTTI elapsed 18628
+REAL RTTI elapsed 14150
+FAST RTTI elapsed 11968
+REAL RTTI elapsed 14172
+FAST RTTI elapsed 12078
+REAL RTTI elapsed 14358
+FAST RTTI elapsed 12086
+REAL RTTI elapsed 14193
+FAST RTTI elapsed 12157
+REAL RTTI elapsed 14372
+FAST RTTI elapsed 12045
+REAL RTTI elapsed 14001
+FAST RTTI elapsed 11996
+REAL RTTI elapsed 14139
+FAST RTTI elapsed 12087
+REAL RTTI elapsed 14112
+FAST RTTI elapsed 11973
+REAL RTTI elapsed 14128
+FAST RTTI elapsed 12039
+REAL RTTI elapsed 14469
+Press any key!
+```
 
 
 ## Example: 
