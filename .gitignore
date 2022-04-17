@@ -21,3 +21,10 @@ tests/UsageTest/Debug/UsageTest_vs2013.log
 tests/UsageTest/Debug/UsageTest_vs2013.vcxproj.FileListAbsolute.txt
 *.idb
 *.user
+tests/UsageTest/.vs/UsageTest_vs2019/v16/Browse.VC.db-shm
+tests/UsageTest/.vs/UsageTest_vs2019/v16/Browse.VC.db-wal
+tests/UsageTest/.vs/UsageTest_vs2019/v16/Browse.VC.opendb
+*.ipch
+tests/UsageTest/Debug/UsageTest_vs2019.exe.recipe
+tests/UsageTest/Debug/UsageTest_vs2019.log
+tests/UsageTest/Debug/UsageTest_vs2019.vcxproj.FileListAbsolute.txt
