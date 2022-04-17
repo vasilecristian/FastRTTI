@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		24C6DF1C280C49C50020B2FE /* UsageTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 24C6DF1B280C49C50020B2FE /* UsageTest.cpp */; };
+		245F6917280C4F1900F980BC /* UsageTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 245F6916280C4F1900F980BC /* UsageTest.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,9 +23,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		245F6916280C4F1900F980BC /* UsageTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UsageTest.cpp; sourceTree = "<group>"; };
+		245F6918280C4F2100F980BC /* RTTI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RTTI.hpp; path = ../../include/FastRTTI/RTTI.hpp; sourceTree = "<group>"; };
 		24C6DF10280C496D0020B2FE /* UsageTest_xcode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = UsageTest_xcode; sourceTree = BUILT_PRODUCTS_DIR; };
-		24C6DF1A280C49BB0020B2FE /* RTTI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = RTTI.hpp; path = ../../../include/FastRTTI/RTTI.hpp; sourceTree = "<group>"; };
-		24C6DF1B280C49C50020B2FE /* UsageTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = UsageTest.cpp; path = ../UsageTest.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,8 +42,8 @@
 		24C6DF07280C496D0020B2FE = {
 			isa = PBXGroup;
 			children = (
-				24C6DF1B280C49C50020B2FE /* UsageTest.cpp */,
-				24C6DF1A280C49BB0020B2FE /* RTTI.hpp */,
+				245F6918280C4F2100F980BC /* RTTI.hpp */,
+				245F6916280C4F1900F980BC /* UsageTest.cpp */,
 				24C6DF11280C496D0020B2FE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -113,7 +113,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24C6DF1C280C49C50020B2FE /* UsageTest.cpp in Sources */,
+				245F6917280C4F1900F980BC /* UsageTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +235,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BR67ND9EV8;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = ../../../include/;
+				HEADER_SEARCH_PATHS = ../../include/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -246,7 +246,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BR67ND9EV8;
 				ENABLE_HARDENED_RUNTIME = YES;
-				HEADER_SEARCH_PATHS = ../../../include/;
+				HEADER_SEARCH_PATHS = ../../include/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
