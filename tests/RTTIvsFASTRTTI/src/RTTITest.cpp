@@ -5,7 +5,7 @@
 #include <time.h>
 #include <vector>
 #include <chrono>
-
+#include <stdio.h>
 
 #ifdef USE_FAST_RTTI
 #include "FastRTTI/RTTI.hpp"
@@ -27,7 +27,7 @@ public:
     {
         m_intA = 0; 
         m_stringA = new char[1024];
-        sprintf_s(m_stringA, 1024,  "class A '%d'\n", m_intA);
+        sprintf(m_stringA, "class A '%d'\n", m_intA);
     };
 
     virtual int GetInt()
@@ -61,7 +61,7 @@ public:
     {
         m_intB = 0; 
         m_stringB = new char[1024];
-        sprintf_s(m_stringB, 1024, "class B '%d'\n", m_intB);
+        sprintf(m_stringB, "class B '%d'\n", m_intB);
     };
 
     virtual int GetInt()
@@ -95,7 +95,7 @@ public:
     {
         m_intC = 0; 
         m_stringC = new char[1024];
-        sprintf_s(m_stringC, 1024, "class C '%d'\n", m_intC);
+        sprintf(m_stringC, "class C '%d'\n", m_intC);
     };
 
     virtual int GetInt()
@@ -129,7 +129,7 @@ public:
     {
         m_intD = 0; 
         m_stringD = new char[1024];
-        sprintf_s(m_stringD, 1024, "class D '%d'\n", m_intD);
+        sprintf(m_stringD, "class D '%d'\n", m_intD);
     };
 
     virtual int GetInt()
@@ -163,7 +163,7 @@ public:
     {
         m_intE = 0; 
         m_stringE = new char[1024];
-        sprintf_s(m_stringE, 1024,  "class E '%d'\n", m_intE);
+        sprintf(m_stringE, "class E '%d'\n", m_intE);
     };
 
     virtual int GetInt()
@@ -196,7 +196,7 @@ public:
     {
         m_intAB = 0; 
         m_stringAB = new char[1024];
-        sprintf_s(m_stringAB, 1024,  "class AB '%d'\n", m_intAB);
+        sprintf(m_stringAB, "class AB '%d'\n", m_intAB);
     };
 
     virtual int GetInt()
@@ -229,7 +229,7 @@ public:
     {
         m_intCD = 0; 
         m_stringCD = new char[1024];
-        sprintf_s(m_stringCD, 1024,  "class CD '%d'\n", m_intCD);
+        sprintf(m_stringCD, "class CD '%d'\n", m_intCD);
     };
 
     virtual int GetInt()
@@ -262,7 +262,7 @@ public:
     {
         m_intAB_CD = 0; 
         m_stringAB_CD = new char[1024];
-        sprintf_s(m_stringAB_CD, 1024,  "class AB_CD '%d'\n", m_intAB_CD);
+        sprintf(m_stringAB_CD, "class AB_CD '%d'\n", m_intAB_CD);
     };
 
     virtual int GetInt()
@@ -296,7 +296,7 @@ public:
     {
         m_intAB_CD_E = 0; 
         m_stringAB_CD_E = new char[1024];
-        sprintf_s(m_stringAB_CD_E, 1024,  "class AB_CD_E '%d'\n", m_intAB_CD_E);
+        sprintf(m_stringAB_CD_E, "class AB_CD_E '%d'\n", m_intAB_CD_E);
     };
 
     virtual int GetInt()
