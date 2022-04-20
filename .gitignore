@@ -1,5 +1,5 @@
 
-tests/RTTIvsFASTRTTI/vs2019/REALRTTI_vs_FASTRTTI.vcxproj.user
+
 tests/RTTIvsFASTRTTI/vs2019/.vs/REALRTTI_vs_FASTRTTI/v16/.suo
 tests/RTTIvsFASTRTTI/vs2019/.vs/REALRTTI_vs_FASTRTTI/v16/Browse.VC.db
 tests/RTTIvsFASTRTTI/vs2019/.vs/REALRTTI_vs_FASTRTTI/v16/ipch/AutoPCH/5f4b1ee0f286da01/RTTITEST.ipch
@@ -13,7 +13,7 @@ tests/UsageTest/.vs/UsageTest_vs2019/v16/.suo
 tests/UsageTest/.vs/UsageTest_vs2019/v16/Browse.VC.db
 *.obj
 *.exe
-tests/UsageTest/Debug/UsageTest_vs2013.exe.recipe
+*.exe.recipe
 *.ilk
 tests/UsageTest/Debug/UsageTest_vs2013.log
 *.pdb
@@ -29,15 +29,9 @@ tests/UsageTest/Debug/UsageTest_vs2019.exe.recipe
 tests/UsageTest/Debug/UsageTest_vs2019.log
 tests/UsageTest/Debug/UsageTest_vs2019.vcxproj.FileListAbsolute.txt
 tests/UsageTest/UsageTest.xcworkspace/xcuserdata/vasile.cristian.xcuserdatad/UserInterfaceState.xcuserstate
-*.exe
-*.exe
-*.exe
 tests/RTTIvsFASTRTTI/vs2019/Release_BOTH/BothRTTI.exe.recipe
 *.iobj
 *.ipdb
 tests/RTTIvsFASTRTTI/vs2019/Release_BOTH/REALRTTI_vs_FASTRTTI.log
-tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/FastRTTI.exe.recipe
 tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/REALRTTI_vs_FASTRTTI.log
-*.exe
-*.exe
-tests/RTTIvsFASTRTTI/xcode/RTTIvsFASTRTTI.xcodeproj/project.xcworkspace/xcuserdata/vasile.cristian.xcuserdatad/UserInterfaceState.xcuserstate
+*.xcuserstate
