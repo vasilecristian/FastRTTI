@@ -182,7 +182,7 @@ public:
     }
 };
 
-class AB: public virtual A, public virtual B
+class AB: public A, public B
 #ifdef USE_FAST_RTTI
     , public IRTTI<AB>
 #endif
@@ -215,7 +215,7 @@ public:
     }
 };
 
-class CD: public virtual C, public virtual D
+class CD: public C, public D
 #ifdef USE_FAST_RTTI
     , public IRTTI<CD>
 #endif
@@ -248,7 +248,7 @@ public:
     }
 };
 
-class AB_CD: public virtual AB, public virtual CD
+class AB_CD: public AB, public CD
 #ifdef USE_FAST_RTTI
     , public IRTTI<AB_CD>
 #endif
@@ -282,7 +282,7 @@ public:
 };
 
 
-class AB_CD_E: public virtual AB, public virtual CD, public virtual E
+class AB_CD_E: public AB, public CD, public E
 #ifdef USE_FAST_RTTI
     , public IRTTI<AB_CD_E>
 #endif

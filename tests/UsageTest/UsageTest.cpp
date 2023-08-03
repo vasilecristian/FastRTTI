@@ -7,24 +7,50 @@
 using namespace fastrtti;
 using namespace std;
 
+class I1 : public IRTTI<I1>
+{
+public:
+    virtual void PrintI1() = 0;
+};
+class I2 : public IRTTI<I2>
+{
+public:
+    virtual void PrintI2() = 0;
+};
+class I3 : public IRTTI<I3>
+{
+public:
+    virtual void PrintI3() = 0;
+};
 
-class A : public IRTTI<A>{};
+class A 
+    : public virtual I1
+    , public virtual I2
+    , public virtual I3
+    , public IRTTI<A> 
+{ 
+public: 
+    void PrintA() { cout << "class name is 'A'!" << endl; } 
+    void PrintI1() override { cout << "class name is 'I1'!" << endl; }
+    void PrintI2() override { cout << "class name is 'I2'!" << endl; }
+    void PrintI3() override { cout << "class name is 'I3'!" << endl; }
+};
 
-class B : public IRTTI<B>{};
+class B : public IRTTI<B> { public: void PrintB() { cout << "class name is 'B'!" << endl; } };
 
-class C : public IRTTI<C>{};
+class C : public IRTTI<C> { public: void PrintC() { cout << "class name is 'C'!" << endl; } };
 
-class D : public IRTTI<D>{};
+class D : public IRTTI<D> { public: void PrintD() { cout << "class name is 'D'!" << endl; } };
 
-class E : public IRTTI<E>{};
+class E : public IRTTI<E> { public: void PrintE() { cout << "class name is 'E'!" << endl; } };
 
-class AB : public virtual A, public virtual B, public IRTTI<AB>{};
+class AB : public A, public B, public IRTTI<AB>{};
 
-class CD : public virtual C, public virtual D, public IRTTI<CD>{};
+class CD : public C, public D, public IRTTI<CD>{};
 
-class AB_CD : public virtual AB, public virtual CD, public IRTTI<AB_CD>{};
+class AB_CD : public AB, public CD, public IRTTI<AB_CD>{};
 
-class AB_CD_E : public virtual AB, public virtual CD, public virtual E, public IRTTI<AB_CD_E>{};
+class AB_CD_E : public AB, public CD, public E, public IRTTI<AB_CD_E>{};
 
 int main(int argc, char* argv[])
 {
@@ -34,8 +60,16 @@ int main(int argc, char* argv[])
     {
         cout << name << endl;
     }
+    cout << "Is object of I1 type? " << (obj1->IsKindOf(IRTTI<I1>::GetTypeID()) ? "Yes" : "No") << endl;
+    ((I1*)obj1)->PrintI1();
+    cout << "Is object of I2 type? " << (obj1->IsKindOf(IRTTI<I2>::GetTypeID()) ? "Yes" : "No") << endl;
+    ((I2*)obj1)->PrintI2();
+    cout << "Is object of I3 type? " << (obj1->IsKindOf(IRTTI<I3>::GetTypeID()) ? "Yes" : "No") << endl;
+    ((I3*)obj1)->PrintI3();
     cout << "Is object of A type? " << (obj1->IsKindOf(IRTTI<A>::GetTypeID()) ? "Yes" : "No") << endl;
+    ((A*)obj1)->PrintA();
     cout << "Is object of E type? " << (obj1->IsKindOf(IRTTI<E>::GetTypeID()) ? "Yes" : "No") << endl;
+    ((E*)obj1)->PrintE();
     delete obj1;
     cout << endl;
 
