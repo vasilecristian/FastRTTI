@@ -1,11 +1,11 @@
-// RTTITest.cpp : Defines the entry point for the console application.
+// RTTITest.cpp : Benchmarks FastRTTI's dyna_cast against the compiler's dynamic_cast.
 //
+// Each run is Arrange (create the objects), Act (time the casts) and Assert (every
+// cast must have succeeded). Build with USE_FAST_RTTI, USE_REAL_RTTI or both.
 
 #include <stdio.h>
-#include <time.h>
 #include <vector>
 #include <chrono>
-#include <stdio.h>
 
 #ifdef USE_FAST_RTTI
 #include "FastRTTI/RTTI.hpp"
@@ -42,7 +42,7 @@ public:
 
     virtual ~A()
     {
-        delete m_stringA;
+        delete[] m_stringA;
     }
 };
 
@@ -76,7 +76,7 @@ public:
 
     virtual ~B()
     {
-        delete m_stringB;
+        delete[] m_stringB;
     }
 };
 
@@ -110,7 +110,7 @@ public:
 
     virtual ~C()
     {
-        delete m_stringC;
+        delete[] m_stringC;
     }
 };
 
@@ -144,7 +144,7 @@ public:
 
     virtual ~D()
     {
-        delete m_stringD;
+        delete[] m_stringD;
     }
 };
 
@@ -178,7 +178,7 @@ public:
 
     virtual ~E()
     {
-        delete m_stringE;
+        delete[] m_stringE;
     }
 };
 
@@ -211,7 +211,7 @@ public:
 
     virtual ~AB()
     {
-        delete m_stringAB;
+        delete[] m_stringAB;
     }
 };
 
@@ -244,7 +244,7 @@ public:
 
     virtual ~CD()
     {
-        delete m_stringCD;
+        delete[] m_stringCD;
     }
 };
 
@@ -277,7 +277,7 @@ public:
 
     virtual ~AB_CD()
     {
-        delete m_stringAB_CD;
+        delete[] m_stringAB_CD;
     }
 };
 
@@ -311,56 +311,118 @@ public:
 
     virtual ~AB_CD_E()
     {
-        delete m_stringAB_CD_E;
+        delete[] m_stringAB_CD_E;
     }
 };
 
-int main(int argc, char* argv[])
+namespace
 {
-	for (int a = 0; a < 10; a++)
-	{
-		std::vector<A*> vec;
+    const int k_objectCount = 160000;
+    const int k_runCount = 10;
 
-		int size = 160000;
+    long long GetNowInMicroseconds()
+    {
+        return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+    }
 
-		for (int i = 0; i < size; i++)
-		{
-			vec.push_back(new AB_CD_E());
-		}
+    /** Arrange: the objects, reached through a base pointer as a real cast site sees them.
+     * @return the objects, to be released with DestroyObjects. */
+    std::vector<A*> CreateObjects()
+    {
+        std::vector<A*> objects;
+        objects.reserve(k_objectCount);
+        for (int i = 0; i < k_objectCount; i++)
+        {
+            objects.push_back(new AB_CD_E());
+        }
+        return objects;
+    }
 
-        unsigned long t0 = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    void DestroyObjects(std::vector<A*>& objects)
+    {
+        for (A* object : objects)
+        {
+            delete object;
+        }
+        objects.clear();
+    }
 
 #ifdef USE_FAST_RTTI
-		for (int i = 0; i < size; i++)
-		{
-			A* a = vec[i];
-			AB_CD_E* ab_cd_e = dyna_cast<AB_CD_E>(a);
-		}
-        unsigned long elapsedFAST = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count() -t0;
-		printf("FAST RTTI elapsed %d\n", elapsedFAST);
+    /** Act: down-casts every object with dyna_cast.
+     * @return how many casts succeeded. Counting them also keeps the optimizer
+     *         from removing the loop being measured. */
+    int CountFastCasts(const std::vector<A*>& objects)
+    {
+        int succeededCount = 0;
+        for (A* object : objects)
+        {
+            if (dyna_cast<AB_CD_E>(object) != nullptr)
+            {
+                succeededCount++;
+            }
+        }
+        return succeededCount;
+    }
 #endif
-
-        t0 = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 #ifdef USE_REAL_RTTI
-		for (int i = 0; i < size; i++)
-		{
-			A* a = vec[i];
-			AB_CD_E* ab_cd_e = dynamic_cast<AB_CD_E*>(a);
-		}
-        unsigned long elapsedREAL = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - t0;
-		printf("REAL RTTI elapsed %d\n", elapsedREAL);
+    /** Act: down-casts every object with dynamic_cast.
+     * @return how many casts succeeded. */
+    int CountRealCasts(const std::vector<A*>& objects)
+    {
+        int succeededCount = 0;
+        for (A* object : objects)
+        {
+            if (dynamic_cast<AB_CD_E*>(object) != nullptr)
+            {
+                succeededCount++;
+            }
+        }
+        return succeededCount;
+    }
 #endif
 
-		for (int i = 0; i < size; i++)
-		{
-			delete vec[i];
-		}
-		vec.clear();
-	}
+    /** Acts with castFunction, prints its time and asserts that every cast succeeded.
+     * @return true when every cast succeeded. */
+    bool MeasureCasts(const char* label, int (*castFunction)(const std::vector<A*>&), const std::vector<A*>& objects)
+    {
+        // Act
+        const long long startTime = GetNowInMicroseconds();
+        const int succeededCount = castFunction(objects);
+        const long long elapsedTime = GetNowInMicroseconds() - startTime;
+        printf("%s elapsed %lld\n", label, elapsedTime);
+
+        // Assert
+        const bool haveAllSucceeded = succeededCount == static_cast<int>(objects.size());
+        if (!haveAllSucceeded)
+        {
+            printf("FAILED: %s cast %d of %d objects\n", label, succeededCount, static_cast<int>(objects.size()));
+        }
+        return haveAllSucceeded;
+    }
+}
+
+int main()
+{
+    bool haveAllCastsSucceeded = true;
+
+    for (int run = 0; run < k_runCount; run++)
+    {
+        // Arrange
+        std::vector<A*> objects = CreateObjects();
+
+        // Act and Assert
+#ifdef USE_FAST_RTTI
+        haveAllCastsSucceeded = MeasureCasts("FAST RTTI", &CountFastCasts, objects) && haveAllCastsSucceeded;
+#endif
+#ifdef USE_REAL_RTTI
+        haveAllCastsSucceeded = MeasureCasts("REAL RTTI", &CountRealCasts, objects) && haveAllCastsSucceeded;
+#endif
+
+        DestroyObjects(objects);
+    }
 
     printf("Press any key!");
     getchar();
-	return 0;
+    return haveAllCastsSucceeded ? 0 : 1;
 }
-

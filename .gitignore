@@ -35,3 +35,6 @@ tests/RTTIvsFASTRTTI/vs2019/Release_BOTH/BothRTTI.exe.recipe
 tests/RTTIvsFASTRTTI/vs2019/Release_BOTH/REALRTTI_vs_FASTRTTI.log
 tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/REALRTTI_vs_FASTRTTI.log
 *.xcuserstate
+
+# CMake build trees for the test suite (tests/CMakeLists.txt)
+build/
