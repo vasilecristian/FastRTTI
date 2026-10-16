@@ -5,13 +5,16 @@
 # RTTI switched off and a type crossing a shared library boundary each need their
 # own compile settings.
 #
+# It is built from the CMakeLists.txt at the repository root (see the presets in
+# CMakePresets.json), or on its own:
+#
 #   cmake -S tests -B build/tests -G Ninja
 #   cmake --build build/tests
 #   ctest --test-dir build/tests --output-on-failure
 #
 # FASTRTTI_INCLUDE_DIR selects the header under test, so another version of
 # FastRTTI/RTTI.hpp can be checked against the same suite.
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10...3.21)
 project(FastRTTITests CXX)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -123,8 +126,25 @@ else()
 	target_compile_options(NoCompilerRttiTest PRIVATE -fno-rtti)
 endif()
 
-# The FastRTTI against dynamic_cast benchmark. Built to keep it compiling, but not
-# a CTest test: it is slow and waits for a key press.
-add_executable(RttiBenchmark EXCLUDE_FROM_ALL RTTIvsFASTRTTI/src/RTTITest.cpp)
-fastrtti_configure_target(RttiBenchmark)
-target_compile_definitions(RttiBenchmark PRIVATE USE_FAST_RTTI USE_REAL_RTTI)
+# The FastRTTI against dynamic_cast benchmark, in the three builds the Visual Studio
+# project had: FastRTTI alone with the compiler's RTTI off, dynamic_cast alone, and
+# both side by side. Built to keep them compiling, but not CTest tests: they are
+# slow and wait for a key press. Build them in Release to compare timings.
+function(fastrtti_add_benchmark name)
+	add_executable(${name} RTTIvsFASTRTTI/src/RTTITest.cpp)
+	fastrtti_configure_target(${name})
+	target_compile_definitions(${name} PRIVATE ${ARGN})
+	if(MSVC)
+		target_compile_definitions(${name} PRIVATE _CRT_SECURE_NO_WARNINGS)
+	endif()
+endfunction()
+
+fastrtti_add_benchmark(FastRTTIBenchmark USE_FAST_RTTI)
+if(MSVC)
+	target_compile_options(FastRTTIBenchmark PRIVATE /GR-)
+else()
+	target_compile_options(FastRTTIBenchmark PRIVATE -fno-rtti)
+endif()
+
+fastrtti_add_benchmark(RealRTTIBenchmark USE_REAL_RTTI)
+fastrtti_add_benchmark(BothRTTIBenchmark USE_FAST_RTTI USE_REAL_RTTI)

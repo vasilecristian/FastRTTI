@@ -38,3 +38,8 @@ tests/RTTIvsFASTRTTI/vs2019/Release_FASTRTTI/REALRTTI_vs_FASTRTTI.log
 
 # CMake build trees for the test suite (tests/CMakeLists.txt)
 build/
+
+# Visual Studio's folder state when a CMake folder is opened, and its default build tree
+.vs/
+out/
+CMakeUserPresets.json

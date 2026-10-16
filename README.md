@@ -12,6 +12,26 @@ This is still somewhat a work in progress; it's stable, but there are probably p
 Public Domain. If my licensing is wrong, please let me know. Use at your own risk for whatever you want. Apparently licensing is hard and complicated. If your country doesn't have a public domain, feel free to say you found this on the side of the road. 
 
 
+## Building the tests
+The project is built with CMake. In Visual Studio use *File > Open > Folder* on the
+repository root and pick a preset (`Windows x64 Debug` or `Windows x64 Release`).
+VS Code with the CMake Tools extension and CLion pick up the same presets.
+
+From a command line (on Windows, a Developer Command Prompt):
+```
+cmake --preset windows-release        # or: release, on Linux and macOS
+cmake --build --preset windows-release
+ctest --preset windows-release
+```
+The benchmark builds are `FastRTTIBenchmark`, `RealRTTIBenchmark` and `BothRTTIBenchmark`,
+in `build/<preset>/bin`. Use a Release preset to compare timings.
+
+To use FastRTTI from another CMake project:
+```cmake
+add_subdirectory(FastRTTI)
+target_link_libraries(MyApp PRIVATE FastRTTI::FastRTTI)
+```
+
 ## Overview
 `FastRTTI` have two simple classes that can used: IRTTI and RTTI . 
 The speed tests `FastRTTI` VS `compiler/real RTTI` results are:

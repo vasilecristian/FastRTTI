@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/Volumes/Mobile_SSD/work/public/FastRTTI/tests"
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "cmake.useCMakePresets": "always"
 }

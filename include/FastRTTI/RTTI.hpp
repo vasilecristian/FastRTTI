@@ -8,6 +8,7 @@
 #include <string>
 #include <array>
 #include <cstdint>
+#include <cstring>
 #include <vector>
 
 #include <iostream>
@@ -100,7 +101,7 @@ namespace fastrtti
 
             for (auto& id : m_inheritanceChainID)
             {
-                id = -1;
+                id = static_cast<std::uint64_t>(-1);
             }
 
             for (auto& ptr : m_inheritanceChainPTR)
@@ -240,11 +241,12 @@ namespace fastrtti
          *  The compiler's per-type signature string is hashed rather than typeid(),
          *  so the library works with the compiler's own RTTI switched off.
          *
+         *  Same-named types in anonymous namespaces of different translation units get
+         *  distinct ids, see HashTypeSignature.
+         *
          *  Limitation: types the signature cannot tell apart share an id. That is the
-         *  case for same-named types in anonymous namespaces of different translation
-         *  units, and with clang for same-named local classes in different functions.
-         *  Give such types distinct names. tests/UnitTests/TypeIdentityTests.cpp
-         *  covers this.
+         *  case with clang for same-named local classes in different functions. Give
+         *  such types distinct names. tests/UnitTests/TypeIdentityTests.cpp covers this.
          *
          *  @return the type ID of this object. */
         static std::uint64_t GetTypeID();
@@ -282,13 +284,35 @@ namespace fastrtti
                 hash ^= static_cast<std::uint64_t>(static_cast<unsigned char>(*c));
                 hash *= 1099511628211ULL;                  // FNV-1a 64 bit prime
             }
+
+            // Every compiler spells an anonymous namespace the same in every translation
+            // unit, so two units' same-named types would share an id. Such a type never
+            // leaves its unit, and IRTTI<T> of it has internal linkage, so each unit has
+            // its own copy of this static. Its address tells the units apart, and only
+            // these types pay for it: every other id stays the same in every module.
+            if (IsInAnonymousNamespace(signature))
+            {
+                static const char unitTag = 0;
+                hash ^= static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(&unitTag));
+                hash *= 1099511628211ULL;
+            }
             return hash;
+        }
+
+        /** @return true when the signature names an anonymous namespace, as the type
+         *  itself or in one of its template arguments, as MSVC, clang or gcc spell it. */
+        static bool IsInAnonymousNamespace(const char* signature)
+        {
+            return std::strstr(signature, "`anonymous namespace'") != nullptr
+                || std::strstr(signature, "(anonymous namespace)") != nullptr
+                || std::strstr(signature, "{anonymous}") != nullptr;
         }
 
     protected:
 
-        /** Appends this subobject to the chain of the object being constructed. */
-        void RegisterInChain()
+        /** Appends this subobject to the chain of the object being constructed.
+         * @param address is what dyna_cast<T> returns for the object. */
+        void RegisterInChain(T* address)
         {
             // Refuse to grow past the reserve rather than writing off the end of the
             // arrays. The cost of refusing is that dyna_cast to THIS type returns
@@ -303,7 +327,7 @@ namespace fastrtti
 
             m_inheritanceChainCounter++;
             m_inheritanceChainID[m_inheritanceChainCounter] = GetTypeID();
-            m_inheritanceChainPTR[m_inheritanceChainCounter] = (T*)this; //the cast to T* is very important.
+            m_inheritanceChainPTR[m_inheritanceChainCounter] = address;
 #if FASTRTTI_CHAIN_NAMES
             m_inheritanceChainNames[m_inheritanceChainCounter] = GetTypeName();
 #endif //FASTRTTI_CHAIN_NAMES
@@ -312,19 +336,27 @@ namespace fastrtti
         /** The IRTTI constructor. */
         IRTTI()
         {
-            RegisterInChain();
+            RegisterInChain((T*)this); //the cast to T* is very important.
+        }
+
+        /** Registers address instead of this, for a T that is not a class derived from
+         *  IRTTI<T> but a value held by one, as in BasicTypeRTTI. Casting this to T*
+         *  there would point at the IRTTI subobject, not at the value. */
+        explicit IRTTI(T* address)
+        {
+            RegisterInChain(address);
         }
 
         /** Registers against the NEW object instead of inheriting the source's entry.
          *  RTTI's copy constructor has already emptied the chain by this point. */
         IRTTI(const IRTTI&)
         {
-            RegisterInChain();
+            RegisterInChain((T*)this);
         }
 
         IRTTI(IRTTI&&)
         {
-            RegisterInChain();
+            RegisterInChain((T*)this);
         }
 
         /** Assignment leaves the chain alone - see RTTI::operator=. */
@@ -386,16 +418,36 @@ namespace fastrtti
     }
     
 
-    /** Basic Types. This template is used to declare the basic types as Int or Double */
+    /** Basic Types. This template is used to declare the basic types as Int or Double.
+     *  dyna_cast<T> on it returns the address of m_val. */
     template<typename T>
     class BasicTypeRTTI: public IRTTI<T>
     {
     public:
         T m_val;
 
-        BasicTypeRTTI(T val): m_val(val) {}
+        // Taking the address of m_val before it is initialised is fine: only the
+        // address is stored, it is not read through until m_val is constructed.
+        BasicTypeRTTI(T val): IRTTI<T>(&m_val), m_val(val) {}
 
-        BasicTypeRTTI(): m_val(0) {}
+        BasicTypeRTTI(): IRTTI<T>(&m_val), m_val(0) {}
+
+        /** A copy registers its OWN m_val, not the source's - see IRTTI's copy constructor. */
+        BasicTypeRTTI(const BasicTypeRTTI& other): RTTI(), IRTTI<T>(&m_val), m_val(other.m_val) {}
+
+        BasicTypeRTTI(BasicTypeRTTI&& other): RTTI(), IRTTI<T>(&m_val), m_val(other.m_val) {}
+
+        BasicTypeRTTI& operator=(const BasicTypeRTTI& other)
+        {
+            m_val = other.m_val;
+            return *this;
+        }
+
+        BasicTypeRTTI& operator=(BasicTypeRTTI&& other)
+        {
+            m_val = other.m_val;
+            return *this;
+        }
     };
 
 } //namespace fastrtti
