@@ -9,6 +9,7 @@
 #include <array>
 #include <cstdint>
 #include <cstring>
+#include <utility>
 #include <vector>
 
 #include <iostream>
@@ -290,9 +291,11 @@ namespace fastrtti
             // leaves its unit, and IRTTI<T> of it has internal linkage, so each unit has
             // its own copy of this static. Its address tells the units apart, and only
             // these types pay for it: every other id stays the same in every module.
+            // Not const on purpose: identical read-only constants may be folded into
+            // one address (MSVC /OPT:ICF, -fmerge-all-constants), writable data is not.
             if (IsInAnonymousNamespace(signature))
             {
-                static const char unitTag = 0;
+                static char unitTag = 0;
                 hash ^= static_cast<std::uint64_t>(reinterpret_cast<std::uintptr_t>(&unitTag));
                 hash *= 1099511628211ULL;
             }
@@ -435,7 +438,7 @@ namespace fastrtti
         /** A copy registers its OWN m_val, not the source's - see IRTTI's copy constructor. */
         BasicTypeRTTI(const BasicTypeRTTI& other): RTTI(), IRTTI<T>(&m_val), m_val(other.m_val) {}
 
-        BasicTypeRTTI(BasicTypeRTTI&& other): RTTI(), IRTTI<T>(&m_val), m_val(other.m_val) {}
+        BasicTypeRTTI(BasicTypeRTTI&& other): RTTI(), IRTTI<T>(&m_val), m_val(std::move(other.m_val)) {}
 
         BasicTypeRTTI& operator=(const BasicTypeRTTI& other)
         {
@@ -445,7 +448,7 @@ namespace fastrtti
 
         BasicTypeRTTI& operator=(BasicTypeRTTI&& other)
         {
-            m_val = other.m_val;
+            m_val = std::move(other.m_val);
             return *this;
         }
     };

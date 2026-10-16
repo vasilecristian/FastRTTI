@@ -43,3 +43,6 @@ build/
 .vs/
 out/
 CMakeUserPresets.json
+
+# Xcode per-user state
+xcuserdata/

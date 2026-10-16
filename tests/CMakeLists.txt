@@ -12,8 +12,8 @@
 #   cmake --build build/tests
 #   ctest --test-dir build/tests --output-on-failure
 #
-# FASTRTTI_INCLUDE_DIR selects the header under test, so another version of
-# FastRTTI/RTTI.hpp can be checked against the same suite.
+# In the standalone build, FASTRTTI_INCLUDE_DIR selects the header under test, so
+# another version of FastRTTI/RTTI.hpp can be checked against the same suite.
 cmake_minimum_required(VERSION 3.10...3.21)
 project(FastRTTITests CXX)
 
@@ -21,8 +21,16 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(FASTRTTI_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../include" CACHE PATH
-	"Directory that contains FastRTTI/RTTI.hpp")
+# Built from the repository root, the tests link the FastRTTI::FastRTTI target it
+# defines, the way another project would. Built on their own, they define the same
+# target over FASTRTTI_INCLUDE_DIR.
+if(NOT TARGET FastRTTI::FastRTTI)
+	set(FASTRTTI_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../include" CACHE PATH
+		"Directory that contains FastRTTI/RTTI.hpp")
+	add_library(FastRTTI INTERFACE)
+	add_library(FastRTTI::FastRTTI ALIAS FastRTTI)
+	target_include_directories(FastRTTI INTERFACE "${FASTRTTI_INCLUDE_DIR}")
+endif()
 
 # Executables and the plugin share one directory, so Windows finds the DLL.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
@@ -33,7 +41,8 @@ set(FASTRTTI_TESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/UnitTests")
 enable_testing()
 
 function(fastrtti_configure_target name)
-	target_include_directories(${name} PRIVATE "${FASTRTTI_INCLUDE_DIR}" "${FASTRTTI_TESTS_DIR}")
+	target_link_libraries(${name} PRIVATE FastRTTI::FastRTTI)
+	target_include_directories(${name} PRIVATE "${FASTRTTI_TESTS_DIR}")
 	if(MSVC)
 		target_compile_options(${name} PRIVATE /W4)
 	else()
@@ -134,9 +143,6 @@ function(fastrtti_add_benchmark name)
 	add_executable(${name} RTTIvsFASTRTTI/src/RTTITest.cpp)
 	fastrtti_configure_target(${name})
 	target_compile_definitions(${name} PRIVATE ${ARGN})
-	if(MSVC)
-		target_compile_definitions(${name} PRIVATE _CRT_SECURE_NO_WARNINGS)
-	endif()
 endfunction()
 
 fastrtti_add_benchmark(FastRTTIBenchmark USE_FAST_RTTI)
