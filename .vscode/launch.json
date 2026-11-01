@@ -1,0 +1,82 @@
+{
+	// "lldb" needs the CodeLLDB extension (vadimcn.vscode-lldb), "cppvsdbg" the C/C++
+	// extension (ms-vscode.cpptools). Each configuration asks which executable to start.
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug Test (macOS/Linux)",
+			"type": "lldb",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/debug/bin/${input:debugTarget}",
+			"args": [],
+			"cwd": "${workspaceFolder}",
+			"terminal": "integrated",
+			"preLaunchTask": "Build Debug"
+		},
+		{
+			"name": "Debug Test (Windows)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/windows-debug/bin/${input:debugTarget}.exe",
+			"args": [],
+			"cwd": "${workspaceFolder}",
+			"console": "integratedTerminal",
+			"preLaunchTask": "Build Debug"
+		},
+		{
+			// The benchmarks wait for a key press at the end, hence the integrated terminal.
+			"name": "Run Benchmark, Release (macOS/Linux)",
+			"type": "lldb",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/release/bin/${input:benchmark}",
+			"args": [],
+			"cwd": "${workspaceFolder}",
+			"terminal": "integrated",
+			"preLaunchTask": "Build Release"
+		},
+		{
+			"name": "Run Benchmark, Release (Windows)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "${workspaceFolder}/build/windows-release/bin/${input:benchmark}.exe",
+			"args": [],
+			"cwd": "${workspaceFolder}",
+			"console": "integratedTerminal",
+			"preLaunchTask": "Build Release"
+		}
+	],
+	"inputs": [
+		{
+			"id": "debugTarget",
+			"type": "pickString",
+			"description": "Executable to debug",
+			"default": "UsageTest",
+			"options": [
+				"UsageTest",
+				"CastingTests",
+				"ObjectLifetimeTests",
+				"TypeIdentityTests",
+				"BasicTypeTests",
+				"ThreadingTests",
+				"CopySemanticsTests",
+				"ChainNamesTests",
+				"ChainOverflowTests",
+				"CrossModuleTests",
+				"FastRTTIBenchmark",
+				"RealRTTIBenchmark",
+				"BothRTTIBenchmark"
+			]
+		},
+		{
+			"id": "benchmark",
+			"type": "pickString",
+			"description": "Benchmark to run",
+			"default": "BothRTTIBenchmark",
+			"options": [
+				"FastRTTIBenchmark",
+				"RealRTTIBenchmark",
+				"BothRTTIBenchmark"
+			]
+		}
+	]
+}
